@@ -1,0 +1,16 @@
+import axios from 'axios';
+
+const API_URL = axios.create({
+  baseURL: 'http://localhost:5000/api'
+})
+
+API_URL.interceptors.request.use((req) => {
+  const token = localStorage.getItem('token');
+  if(token) {
+    req.headers.Authorization = `Bearer ${token}`;
+  }
+  return req;
+})
+
+export const register = (userData) => API_URL.post('/users/register', userData);
+export const login = (userData) => API_URL.post('/users/login', userData);
